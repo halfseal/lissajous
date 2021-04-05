@@ -22,17 +22,28 @@ let model_mx1 = mat4.create();
 let model_mx2 = mat4.create();
 let model_mx3 = mat4.create();
 
+let mx1_queue = [];
+let mx2_queue = [];
+
 function update(delta) {
     let x = document.getElementById("Phi");
 
     let time = t * 2;
     let phi = x.value * rad;
 
-    model_mx1[12] = 0.5 * (Math.cos(time));
-    model_mx2[13] = 0.5 * (Math.cos(time + phi));
+    let mx1_trans = 0.5 * (Math.cos(time));
+    let mx2_trans = 0.5 * (Math.cos(time + phi));
 
-    model_mx3[12] = 0.5 * (Math.cos(time));
-    model_mx3[13] = 0.5 * (Math.cos(time + phi));
+    model_mx1[12] = mx1_trans;
+    model_mx2[13] = mx2_trans;
+
+    mx1_queue.push(mx1_trans);
+    mx2_queue.push(mx2_trans);
+
+    if (mx1_queue.length > 50) {
+        mx1_queue.shift();
+        mx2_queue.shift();
+    }
 }
 
 function render() {
@@ -54,7 +65,20 @@ function render() {
     gl.vertexAttribPointer(pos, 3, gl.FLOAT, false, 0, 0);
     gl.enableVertexAttribArray(pos);
 
-    prog.uniform1f("point_size", 10.0);
+    for (let i = mx1_queue.length - 1; i >= 0; i--) {
+        let trans1 = mx1_queue[i];
+        let trans2 = mx2_queue[i];
+
+        model_mx3[12] = trans1;
+        model_mx3[13] = trans2;
+
+        prog.uniformMat4("model_mx", false, model_mx3);
+
+        let i1 = i + 1;
+        let color_val = 0.9 - 0.9 * (i1 / mx1_queue.length) * (i1 / mx1_queue.length);
+        prog.uniform3fv("color", vec3.fromValues(color_val, color_val, color_val));
+        gl.drawArrays(gl.POINTS, 0, 1);
+    }
 
     prog.uniformMat4("model_mx", false, model_mx1);
     prog.uniform3fv("color", vec3.fromValues(0.2, 0.2, 1.0));
@@ -63,18 +87,12 @@ function render() {
     prog.uniformMat4("model_mx", false, model_mx2);
     prog.uniform3fv("color", vec3.fromValues(1.0, 0.2, 0.2));
     gl.drawArrays(gl.POINTS, 0, 1);
-
-    prog.uniform1f("point_size", 20.0);
-
-    prog.uniformMat4("model_mx", false, model_mx3);
-    prog.uniform3fv("color", vec3.fromValues(0.2, 0.2, 0.2));
-    gl.drawArrays(gl.POINTS, 0, 1);
 }
 
 function initGLSetting() {
     gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
     gl.lineWidth(1.0);
-    gl.clearColor(0.9, 0.9, 0.9, 1.0);
+    gl.clearColor(1.0, 1.0, 1.0, 1.0);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     gl.enable(gl.DEPTH_TEST);
     gl.enable(gl.CULL_FACE);

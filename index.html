@@ -23,8 +23,6 @@
 
     attribute vec3      position;
 
-    uniform float       point_size;
-
     uniform mat4        model_mx;
     uniform mat4        aspect_mx;
     //uniform struct Camera { mat4 view_mx, proj_mx; } cam;
@@ -32,7 +30,7 @@
     void main() {
         vec4 wpos = model_mx * vec4(position, 1.0);
         gl_Position = aspect_mx * wpos;
-        gl_PointSize = point_size;
+        gl_PointSize = 10.0;
     }
 </script>
 <script type="x-shader/x-fragment" id="h_frag">
