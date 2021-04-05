@@ -16,7 +16,7 @@ export function glStart(canvas) {
     window.requestAnimationFrame(loop);
 }
 
-const rad = Math.PI / 180;
+const rad = Math.PI / 180.0;
 
 let model_mx1 = mat4.create();
 let model_mx2 = mat4.create();
@@ -25,7 +25,7 @@ let model_mx3 = mat4.create();
 function update(delta) {
     let x = document.getElementById("Phi");
 
-    let phi = 45 * x.value;
+    let phi = x.value * rad;
     model_mx1[12] = 0.5 * (Math.cos(t));
     model_mx2[13] = 0.5 * (Math.cos(t + phi));
 
