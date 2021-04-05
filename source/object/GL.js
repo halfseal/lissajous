@@ -25,12 +25,14 @@ let model_mx3 = mat4.create();
 function update(delta) {
     let x = document.getElementById("Phi");
 
+    let time = t * 2;
     let phi = x.value * rad;
-    model_mx1[12] = 0.5 * (Math.cos(t));
-    model_mx2[13] = 0.5 * (Math.cos(t + phi));
 
-    model_mx3[12] = 0.5 * (Math.cos(t));
-    model_mx3[13] = 0.5 * (Math.cos(t + phi));
+    model_mx1[12] = 0.5 * (Math.cos(time));
+    model_mx2[13] = 0.5 * (Math.cos(time + phi));
+
+    model_mx3[12] = 0.5 * (Math.cos(time));
+    model_mx3[13] = 0.5 * (Math.cos(time + phi));
 }
 
 function render() {
