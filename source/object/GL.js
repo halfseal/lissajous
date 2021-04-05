@@ -40,7 +40,7 @@ function update(delta) {
     mx1_queue.push(mx1_trans);
     mx2_queue.push(mx2_trans);
 
-    if (mx1_queue.length > 50) {
+    if (mx1_queue.length > 200) {
         mx1_queue.shift();
         mx2_queue.shift();
     }
@@ -75,7 +75,8 @@ function render() {
         prog.uniformMat4("model_mx", false, model_mx3);
 
         let i1 = i + 1;
-        let color_val = 0.9 - 0.9 * (i1 / mx1_queue.length) * (i1 / mx1_queue.length);
+        let color_val = 1.0 - 0.3 * (i1 / mx1_queue.length) * (i1 / mx1_queue.length);
+        if (i === mx1_queue.length - 1) color_val = 0.0;
         prog.uniform3fv("color", vec3.fromValues(color_val, color_val, color_val));
         gl.drawArrays(gl.POINTS, 0, 1);
     }
