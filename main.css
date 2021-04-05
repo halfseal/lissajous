@@ -1,0 +1,52 @@
+.disable-select {
+    user-select: none; /* supported by Chrome and Opera */
+    -webkit-user-select: none; /* Safari */
+    -webkit-touch-callout: none;
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#glContainer {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}
+
+canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+button {
+    background-color: transparent;
+    color: white;
+    text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+    height: fit-content;
+}
+
+#hideButton {
+    position: fixed;
+    left: 0;
+    top: 100%;
+    transform: translateY(-100%);
+}
+
+#buttonSet {
+    position: fixed;
+    left: 0;
+    top: 0;
+}
+
+#arrowSet {
+    text-align: center;
+    position: fixed;
+    left: 50%;
+    top: 100%;
+    transform: translate(-50%, -150%);
+}

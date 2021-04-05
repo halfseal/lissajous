@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>lissajous</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+    <link href="main.css" rel="stylesheet" type="text/css"/>
+    <link rel="icon" href="#">
+    <script src="main.js" type="module"></script>
+    <script src='./dist/gl-matrix.js'>
+    </script>
+</head>
+<body>
+<label for="Phi">Phi : </label>
+<input type="number" id="Phi" name="Phi" value="0">
+
+<div id="glContainer" class="disable-select">
+    <canvas id="glCanvas">Your browser does not seem to support HTML5 canvas.</canvas>
+</div>
+<script type="x-shader/x-vertex" id="h_vert">
+    #version 100
+    precision highp float;
+
+    attribute vec3      position;
+
+    uniform float       point_size;
+
+    uniform mat4        model_mx;
+    uniform mat4        aspect_mx;
+    //uniform struct Camera { mat4 view_mx, proj_mx; } cam;
+
+    void main() {
+        vec4 wpos = model_mx * vec4(position, 1.0);
+        gl_Position = aspect_mx * wpos;
+        gl_PointSize = point_size;
+    }
+</script>
+<script type="x-shader/x-fragment" id="h_frag">
+    #version 100
+    precision mediump float;
+
+    uniform vec3        color;
+
+    void main() {
+        gl_FragColor = vec4(color, 1.0);
+    }
+</script>
+</body>
+</html>
