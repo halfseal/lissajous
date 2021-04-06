@@ -65,6 +65,14 @@ function render() {
     gl.vertexAttribPointer(pos, 3, gl.FLOAT, false, 0, 0);
     gl.enableVertexAttribArray(pos);
 
+    prog.uniformMat4("model_mx", false, model_mx1);
+    prog.uniform3fv("color", vec3.fromValues(0.2, 0.2, 1.0));
+    gl.drawArrays(gl.POINTS, 0, 1);
+
+    prog.uniformMat4("model_mx", false, model_mx2);
+    prog.uniform3fv("color", vec3.fromValues(1.0, 0.2, 0.2));
+    gl.drawArrays(gl.POINTS, 0, 1);
+
     for (let i = mx1_queue.length - 1; i >= 0; i--) {
         let trans1 = mx1_queue[i];
         let trans2 = mx2_queue[i];
@@ -80,14 +88,6 @@ function render() {
         prog.uniform3fv("color", vec3.fromValues(color_val, color_val, color_val));
         gl.drawArrays(gl.POINTS, 0, 1);
     }
-
-    prog.uniformMat4("model_mx", false, model_mx1);
-    prog.uniform3fv("color", vec3.fromValues(0.2, 0.2, 1.0));
-    gl.drawArrays(gl.POINTS, 0, 1);
-
-    prog.uniformMat4("model_mx", false, model_mx2);
-    prog.uniform3fv("color", vec3.fromValues(1.0, 0.2, 0.2));
-    gl.drawArrays(gl.POINTS, 0, 1);
 }
 
 function initGLSetting() {
